@@ -1,0 +1,20 @@
+<div class="card-container">
+  <!-- Two binding example -->
+  <!-- <div class="card">
+    <input [(ngModel)]="srchKeyword">
+  </div> -->
+  <div class="card">
+    <input type="text" name="txtSrchKeyword" (keyup)="setSearchString($event)">
+  </div>
+  <div class="card"><input type="button" value="search" (click)="callSearch()"></div>
+</div>
+<div class="card-container" *ngIf="srchKeyword">
+  <div class="card">
+    Searched keyword: {{srchKeyword}}
+  </div>
+</div>
+<div class="card-container" *ngIf="srchResults">
+  <div class="card" *ngFor="let srchItem of srchResults.items">
+    {{srchItem.login}}
+  </div>
+</div>
