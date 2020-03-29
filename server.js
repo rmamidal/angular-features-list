@@ -1,25 +1,32 @@
-"use strict";
-const express = require("express");
-const compression = require("compression");
-
-// tslint:disable-next-line:variable-name
-const _port = 4100;
-// tslint:disable-next-line:variable-name
-const _app_folder = 'dist/angular-features-list';
-
+const express = require('express');
+const rendertron = require('rendertron-middleware');
 const app = express();
-app.use(compression());
+const path = require('path');
+const fs = require('fs');
 
+const port = process.env.NODE_PORT || 3000;
 
-// ---- SERVE STATIC FILES ---- //
-app.server.get('*.*', express.static(_app_folder, {maxAge: '1y'}));
+const root = path.join(__dirname, 'dist', 'angular-features-list');
+const BOTS = rendertron.botUserAgents.concat('googlebot');
+const BOT_UA_PATTERN = new RegExp(BOTS.join('|'), 'i');
+console.log(BOTS);
+console.log(BOT_UA_PATTERN);
 
-// ---- SERVE APLICATION PATHS ---- //
-app.all('*', (req, res) => {
-    res.status(200).sendFile(`/`, {root: _app_folder});
+app.get('*' ,function(req, res) {
+
+  fs.stat(root + req.path, function(err){
+    if(err){
+      console.log("1"+req.path);
+        res.sendFile("index.html", { root });
+    }else{
+      console.log("2"+req.path);
+        res.sendFile(req.path, { root });
+    }
+  })
 });
-
-// ---- START UP THE NODE SERVER  ----
-app.listen(_port, () => {
-    console.log('Node Express server for ' + app.name + ' listening on http://localhost:' + _port);
-});
+app.use(rendertron.makeMiddleware({
+  proxyUrl: 'https://render-tron.appspot.com//render',
+  userAgentPattern: BOT_UA_PATTERN
+}));
+app.listen(port);
+console.log('Listening on port '+ port);
