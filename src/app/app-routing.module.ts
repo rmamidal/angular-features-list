@@ -6,7 +6,8 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
   { path: '', loadChildren: () => import('./default/default.module').then(m => m.DefaultModule)},
   { path: 'default', loadChildren: () => import('./default/default.module').then(m => m.DefaultModule)},
-  { path: 'example-search', loadChildren: () => import('./example-search/example-search.module').then(m => m.ExampleSearchModule)}
+  { path: 'example-search', loadChildren: () => import('./example-search/example-search.module').then(m => m.ExampleSearchModule)},
+  { path: 'example-search/:keyword', loadChildren: () => import('./example-search/example-search.module').then(m => m.ExampleSearchModule)}
 ];
 
 @NgModule({
