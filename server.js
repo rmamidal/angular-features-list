@@ -3,6 +3,7 @@ const app = express();
 const rendertron = require('rendertron-middleware');
 const path = require('path');
 const fs = require('fs');
+const cors = require('cors');
 
 const port = process.env.NODE_PORT || 3001;
 
@@ -14,11 +15,17 @@ const puppeteer = require('puppeteer');
 
 console.log(BOTS);
 console.log(BOT_UA_PATTERN);
+app.use(cors());
 
-// Rendertron SEO Implementation.
+// Rendertron SEO Implementation for specific URL.
+// app.use('/example-search', rendertron.makeMiddleware({
+//   proxyUrl: 'http://localhost:3000/render/',
+//   userAgentPattern: BOT_UA_PATTERN
+// }));
+// Rendertron SEO Implementation for all URL.
 app.use(rendertron.makeMiddleware({
   proxyUrl: 'http://localhost:3000/render/',
- // userAgentPattern: BOT_UA_PATTERN
+  userAgentPattern: BOT_UA_PATTERN
 }));
 
 // Rendertron SEO Implementation with remote proxy url.
