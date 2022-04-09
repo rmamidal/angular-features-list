@@ -26,7 +26,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-serve-static-core": "^0.1.1",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "puppeteer": "^2.1.1",
     "rendertron-middleware": "^0.1.5",
     "rxjs": "~6.5.4",
